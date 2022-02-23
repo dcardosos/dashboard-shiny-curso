@@ -1,0 +1,13 @@
+name: exercicio_deploy_partidos_desigualdade
+title: exercicio_deploy_partidos_desigualdade
+username:
+account: dcardosos
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 5696471
+bundleId: 5600063
+url: https://dcardosos.shinyapps.io/exercicio_deploy_partidos_desigualdade/
+when: 1645399884.09753
+lastSyncTime: 1645399884.09755
+asMultiple: FALSE
+asStatic: FALSE

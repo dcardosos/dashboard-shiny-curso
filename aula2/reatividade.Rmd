@@ -1,0 +1,91 @@
+---
+title: "Reatividade"
+author: "Douglas Cardoso"
+date: "2/22/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Reatividade 
+
+Em R temos dois paradigmas:
+
+* avaliar uma linha de código assim que a escrevermos
+* rodar o script de uma vez, linhas de códigos que serão avaliadas sequencialmente
+
+Esse paradigma de rodar coisas sequenciais se chama **programação imperativa**. Mas no Shiny é diferente.
+
+### Programação declarativa
+
+* o código funciona como uma receita, só será utilizada quando necessário
+* nossa receita será um **diagrama de reatividade**, um conjunto de dependências que decide quais outputs devem ser recalculados quando um input muda
+* o que temos que aprender sobre reatividade são as regras para cosntruir essa receita da reatividade 
+* possui 3 estruturas principais
+  + valores reativos: origem do diagrama, guardam informações que vêm da UI e disparam sinais de alerta sempre que essas informações mudam
+  + expressões reativas: meio termo entre valores reativos e observers, porque pode funcionar como os dois. ela terá um código que será recalculado sempre que qualquer input dentro desse código mudar, esse código cria um valor que não é o output 
+  + observers: é pra onde os sinais de alertas dos valores reativos vão, guardam o código de cada output e são o **o ponto final do fluxo de reatividade**
+
+### Função reactive()
+
+Essa função pode ser utilizada para criar expressões reativas, como exemplo
+
+```{r}
+amostra <- reactive({
+  sample(1:10, input$tamanho, replace = TRUE)
+})
+```
+
+E para acessar o valor, utilizamos como funcão
+```{r}
+output$summary <- renderPrint({
+  
+  amostra() %>% # ela apenas retorna o valor calculado dentro do reactive
+    table() %>% 
+    barplot()
+})
+```
+
+### Contexto reativo
+
+Valores reativos e expressões reativas só podem ser utilizadas dentro de um contexto reativo.
+
+### Disparo de reatividade
+
+Para esse fluxo existir, o diagrama de reatividade estiver completo, isto é, começar com um valor reativo e terminar com um observer. Caminhos que terminam com expressões reativas não causam o disparo de reatividade.
+
+### Gráfico de reatividade
+
+O pacote `reactlog` gera um gráfico de reatividade, para entender o fluxo. Para isso basta setar:
+
+```{r}
+options(shiny.reactlog = TRUE)
+```
+
+Depois de rodar o app basta clicar em Ctrl + F3 ou Command + F3.
+
+### Função eventReactive()
+
+Cria uma **expressão reativa** que corresponde às mudanças de um valor reativo específico.
+
+```{r}
+# ui
+actionButton("atualizar", "Gerar gráfico")
+
+# server
+titulo <- eventReactive(input$atualizar, { # condição para esse evento rodar
+  input$titulo
+})
+
+output$hist <- renderPlot({
+  hist(amostra(), main = titulo())
+})
+```
+
+### Corrigindo erros (debug)
+
+* 
+
+
