@@ -86,6 +86,19 @@ output$hist <- renderPlot({
 
 ### Corrigindo erros (debug)
 
-* 
+* erros comuns de programação em R - leia mensagem de erro e tentar entender
+* erros de sintaxe do Shiny - recebemos *unexpected symbol*
+* expressão reativa fora de uma função reativa
+* você só pode ler valores da lista input, apenas
+* você só pode escrever valores na lista output, apenas
+* não fazer a correspondência certa entre as funções Output e render
+* errar o nome de um input
+* errar o o nome de um output
+* usar o mesmo ID para dois outputs
+* esquecer os parênteses ao chamar uma expressão reativa. o erro que recebe é `cannot coerce type 'closure' for argument`
+
+### Função browser()
+
+Função do R base e você pode usar para espiar o que está acontecendo dentro do server
 
 
